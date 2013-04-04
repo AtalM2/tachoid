@@ -46,17 +46,20 @@ public class TextPersistenceManager implements PersistenceManager {
                 String receiveString;
 
                 while ((receiveString = bufferedReader.readLine()) != null) {
+                    System.out.println("=========== RECEIVE : " + receiveString + " =====================");
                     int splitter = receiveString.indexOf(SPLITTER);
-                    String tag = receiveString.substring(0, splitter);
-                    String value = receiveString.substring(splitter);
-                    Domain currentDomain = null;
-                    if (tag.equals(DOMAIN_TAG)) {
-                        currentDomain = handleDomain(value);
-                        data.add(currentDomain);
-                    } else if (tag.equals(TASK_TAG)) {
-                        if (currentDomain != null) {
-                            Task currentTask = handleTask(value);
-                            currentDomain.getTasks().add(currentTask);
+                    if (splitter != -1) {
+                        String tag = receiveString.substring(0, splitter);
+                        String value = receiveString.substring(splitter + 1);
+                        Domain currentDomain = null;
+                        if (tag.equals(DOMAIN_TAG)) {
+                            currentDomain = handleDomain(value);
+                            data.add(currentDomain);
+                        } else if (tag.equals(TASK_TAG)) {
+                            if (currentDomain != null) {
+                                Task currentTask = handleTask(value);
+                                currentDomain.getTasks().add(currentTask);
+                            }
                         }
                     }
                 }
@@ -71,14 +74,16 @@ public class TextPersistenceManager implements PersistenceManager {
     }
 
     @Override
-    public void Save(Data data) {
+    public void save(Data data) {
         try {
             OutputStreamWriter outputStreamWriter = new OutputStreamWriter(activity.openFileOutput(FILE_NAME, Context.MODE_PRIVATE));
             for (Domain domain : data) {
-                String output = String.format(writeDomain(domain), System.getProperty("line.separator"));
+                System.out.println("=========== DOMAINE : " + writeDomain(domain) + " =====================");
+                String output = writeDomain(domain) + System.getProperty("line.separator");
                 outputStreamWriter.write(output);
                 for (Task task : domain.getTasks()) {
-                    output = String.format(writeTask(task), System.getProperty("line.separator"));
+                    System.out.println("=========== TASK : " + writeTask(task) + " =====================");
+                    output = writeTask(task) + System.getProperty("line.separator");
                     outputStreamWriter.write(output);
                 }
             }
@@ -93,18 +98,18 @@ public class TextPersistenceManager implements PersistenceManager {
     }
 
     private String writeDomain(Domain domain) {
-        return String.format(DOMAIN_TAG, SPLITTER, domain.getName());
+        return DOMAIN_TAG + SPLITTER + domain.getName();
     }
 
     private Task handleTask(String taskString) {
         int splitter = taskString.indexOf(SPLITTER);
         String checked = taskString.substring(0, splitter);
-        String name = taskString.substring(splitter);
+        String name = taskString.substring(splitter + 1);
         Task task = new Task(name, checked.equals("1"));
         return task;
     }
 
     private String writeTask(Task task) {
-        return String.format(TASK_TAG, SPLITTER, task.isChecked() ? "1" : "0", SPLITTER, task.getName());
+        return TASK_TAG + SPLITTER + (task.isChecked() ? "1" : "0") + SPLITTER + task.getName();
     }
 }
