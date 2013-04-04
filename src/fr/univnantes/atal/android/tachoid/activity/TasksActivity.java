@@ -13,94 +13,103 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.AdapterView.AdapterContextMenuInfo;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 import fr.univnantes.atal.android.tachoid.R;
-import fr.univnantes.atal.android.tachoid.adapter.DomainsAdapter;
+import fr.univnantes.atal.android.tachoid.adapter.TasksAdapter;
 import fr.univnantes.atal.android.tachoid.entity.Data;
-import fr.univnantes.atal.android.tachoid.entity.Domain;
+import fr.univnantes.atal.android.tachoid.entity.Task;
 import fr.univnantes.atal.android.tachoid.persistence.PersistenceManager;
 import fr.univnantes.atal.android.tachoid.persistence.TextPersistenceManager;
 
-public class DomainsActivity extends Activity {
+public class TasksActivity extends Activity {
 
-    private PersistenceManager manager;
-    private Data data;
+    public PersistenceManager manager;
+    public Data data;
+    public int domainId;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        System.out.println("DOMAINS : ON CREATE");
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.domains_main);
+        System.out.println("TASKS : ON CREATE");
+        setContentView(R.layout.tasks_main);
 
         // Chargement des données
         manager = new TextPersistenceManager(this);
         data = manager.load();
 
-        // Initialisation de la liste des listes
-        ListView listView = (ListView) findViewById(R.id.domains_listView);
-        DomainsAdapter adapter = new DomainsAdapter(this, data);
+        // Chargement de la liste
+        Intent intent = getIntent();
+        domainId = intent.getIntExtra("domain", -1);
+        if (domainId == -1) {
+            finish();
+        }
+
+        // Initialisation du titre
+        TextView textView = (TextView) findViewById(R.id.tasks_title);
+        textView.setText(data.get(domainId).getName());
+
+        // Initialisation de la liste des tâches
+        final ListView listView = (ListView) findViewById(R.id.tasks_listView);
+        TasksAdapter adapter = new TasksAdapter(this);
         listView.setAdapter(adapter);
         registerForContextMenu(listView);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                openDomain(position);
-            }
-        });
     }
 
     @Override
     public void onRestart() {
         super.onRestart();
-        System.out.println("DOMAINS : ON RESTART");
+        System.out.println("TASKS : ON RESTART");
     }
 
     @Override
     public void onStart() {
         super.onStart();
-        System.out.println("DOMAINS : ON START");
+        System.out.println("TASKS : ON START");
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        System.out.println("DOMAINS : ON RESUME");
+        System.out.println("TASKS : ON RESUME");
         load();
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        System.out.println("DOMAINS : ON PAUSE");
+        System.out.println("TASKS : ON PAUSE");
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        System.out.println("DOMAINS : ON STOP");
+        System.out.println("TASKS : ON STOP");
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        System.out.println("DOMAINS : ON DESTROY");
+        System.out.println("TASKS : ON DESTROY");
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.domains_options, menu);
+        inflater.inflate(R.menu.tasks_options, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.domains_options_addDomain:
-                showAddDomainDialog(null);
+            case R.id.tasks_options_addTask:
+                showAddTaskDialog(null);
                 return true;
-            case R.id.domains_options_deleteAll:
+            case R.id.tasks_options_deleteAll:
                 data.clear();
                 save();
                 return true;
@@ -113,34 +122,28 @@ public class DomainsActivity extends Activity {
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.domains_context, menu);
+        inflater.inflate(R.menu.tasks_context, menu);
     }
 
     @Override
     public boolean onContextItemSelected(MenuItem item) {
-        AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
         switch (item.getItemId()) {
-            case R.id.domains_context_rename:
-                renameDomain((int) info.id);
+            case R.id.tasks_context_rename:
+                renameTask((int) info.id);
                 return true;
-            case R.id.domains_context_delete:
-                deleteDomain((int) info.id);
+            case R.id.tasks_context_delete:
+                deleteTask((int) info.id);
                 return true;
             default:
                 return super.onContextItemSelected(item);
         }
     }
 
-    private void openDomain(int domainId) {
-        Intent intent = new Intent(this, TasksActivity.class);
-        intent.putExtra("domain", domainId);
-        startActivity(intent);
-    }
-
-    public void showAddDomainDialog(View view) {
+    public void showAddTaskDialog(View view) {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
 
-        alertDialogBuilder.setTitle("Ajouter une liste");
+        alertDialogBuilder.setTitle("Ajouter une tâche");
         final EditText input = new EditText(this);
         alertDialogBuilder
                 .setView(input)
@@ -149,8 +152,8 @@ public class DomainsActivity extends Activity {
             public void onClick(DialogInterface dialog, int id) {
                 String name = input.getText().toString();
                 if (!name.equals("")) {
-                    Domain domain = new Domain(name);
-                    data.add(domain);
+                    Task task = new Task(name);
+                    data.get(domainId).add(task);
                     save();
                 } else {
                     dialog.cancel();
@@ -167,12 +170,12 @@ public class DomainsActivity extends Activity {
         alertDialog.show();
     }
 
-    private void renameDomain(int domainId) {
+    private void renameTask(int taskId) {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
-        final Domain domain = data.get(domainId);
-        alertDialogBuilder.setTitle("Renommer la liste");
+        final Task task = data.get(domainId).get(taskId);
+        alertDialogBuilder.setTitle("Renommer la tâche");
         final EditText input = new EditText(this);
-        input.setText(domain.getName());
+        input.setText(task.getName());
         int position = input.length();
         Editable text = input.getText();
         Selection.setSelection(text, position);
@@ -183,7 +186,7 @@ public class DomainsActivity extends Activity {
             public void onClick(DialogInterface dialog, int id) {
                 String name = input.getText().toString();
                 if (!name.equals("")) {
-                    domain.setName(name);
+                    task.setName(name);
                     save();
                 } else {
                     dialog.cancel();
@@ -200,23 +203,27 @@ public class DomainsActivity extends Activity {
         alertDialog.show();
     }
 
-    private void deleteDomain(int domainId) {
-        data.remove(domainId);
+    private void deleteTask(int taskId) {
+        data.get(domainId).remove(taskId);
         save();
     }
 
     private void save() {
         manager.save(data);
-        ListView listView = (ListView) findViewById(R.id.domains_listView);
-        DomainsAdapter adapter = (DomainsAdapter) listView.getAdapter();
-        adapter.notifyDataSetChanged();        
+        ListView listView = (ListView) findViewById(R.id.tasks_listView);
+        TasksAdapter adapter = (TasksAdapter) listView.getAdapter();
+        adapter.notifyDataSetChanged();
     }
 
-    private void load() {        
+    private void load() {
         data = manager.load();
-        ListView listView = (ListView) findViewById(R.id.domains_listView);
-        DomainsAdapter adapter = (DomainsAdapter) listView.getAdapter();
+        ListView listView = (ListView) findViewById(R.id.tasks_listView);
+        TasksAdapter adapter = (TasksAdapter) listView.getAdapter();
         adapter.setData(data);
         adapter.notifyDataSetChanged();
+    }
+
+    public void handleReturnClick(View view) {
+        finish();
     }
 }

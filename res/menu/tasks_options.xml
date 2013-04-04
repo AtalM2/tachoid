@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+    
+    <item android:id="@+id/tasks_options_addTask"
+          android:title="Ajouter une tâche" />
+    <item android:id="@+id/tasks_options_deleteAll"
+          android:title="Supprimer tout" />
+
+</menu>

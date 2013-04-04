@@ -33,6 +33,10 @@ public class DomainsAdapter extends BaseAdapter {
     public long getItemId(int position) {
         return position;
     }
+    
+    public void setData(Data data) {
+        this.data = data;
+    }
 
     private class ViewHolder {
 
@@ -45,7 +49,7 @@ public class DomainsAdapter extends BaseAdapter {
         if (convertView == null) {
             holder = new ViewHolder();
             convertView = inflater.inflate(R.layout.domain, null);
-            holder.tvName = (TextView) convertView.findViewById(R.id.tvName);
+            holder.tvName = (TextView) convertView.findViewById(R.id.domain_name);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();

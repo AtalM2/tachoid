@@ -1,23 +1,13 @@
 package fr.univnantes.atal.android.tachoid.entity;
 
 import java.util.ArrayList;
-import java.util.List;
 
-public class Domain {
+public class Domain extends ArrayList<Task> {
 
-    private List<Task> tasks;
     private String name;
 
     public Domain(String name) {
         this.name = name;
-        this.tasks = new ArrayList<Task>();
-    }
-
-    /**
-     * @return the tasks
-     */
-    public List<Task> getTasks() {
-        return tasks;
     }
 
     /**
@@ -32,5 +22,15 @@ public class Domain {
      */
     public void setName(String name) {
         this.name = name;
+    }
+    
+    @Override
+    public String toString() {
+        StringBuilder builder = new StringBuilder("Domain : " + name + " [\n");
+        for (Task task : this) {
+            builder.append("\t").append(task.toString()).append("\n");
+        }
+        builder.append("]\n");
+        return builder.toString();
     }
 }

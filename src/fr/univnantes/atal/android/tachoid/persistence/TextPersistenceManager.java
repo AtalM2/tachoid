@@ -44,21 +44,22 @@ public class TextPersistenceManager implements PersistenceManager {
                 InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
                 BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
                 String receiveString;
+                Domain currentDomain = null;
 
                 while ((receiveString = bufferedReader.readLine()) != null) {
-                    System.out.println("=========== RECEIVE : " + receiveString + " =====================");
+                    System.out.println("=========== LOAD : " + receiveString + " =====================");
                     int splitter = receiveString.indexOf(SPLITTER);
                     if (splitter != -1) {
                         String tag = receiveString.substring(0, splitter);
                         String value = receiveString.substring(splitter + 1);
-                        Domain currentDomain = null;
                         if (tag.equals(DOMAIN_TAG)) {
                             currentDomain = handleDomain(value);
                             data.add(currentDomain);
                         } else if (tag.equals(TASK_TAG)) {
                             if (currentDomain != null) {
+                                System.out.println("CURRENT DOMAIN : " + currentDomain.getName());
                                 Task currentTask = handleTask(value);
-                                currentDomain.getTasks().add(currentTask);
+                                currentDomain.add(currentTask);
                             }
                         }
                     }
@@ -78,11 +79,11 @@ public class TextPersistenceManager implements PersistenceManager {
         try {
             OutputStreamWriter outputStreamWriter = new OutputStreamWriter(activity.openFileOutput(FILE_NAME, Context.MODE_PRIVATE));
             for (Domain domain : data) {
-                System.out.println("=========== DOMAINE : " + writeDomain(domain) + " =====================");
+                System.out.println("=========== SAVE : " + writeDomain(domain) + " =====================");
                 String output = writeDomain(domain) + System.getProperty("line.separator");
                 outputStreamWriter.write(output);
-                for (Task task : domain.getTasks()) {
-                    System.out.println("=========== TASK : " + writeTask(task) + " =====================");
+                for (Task task : domain) {
+                    System.out.println("=========== SAVE : " + writeTask(task) + " =====================");
                     output = writeTask(task) + System.getProperty("line.separator");
                     outputStreamWriter.write(output);
                 }
