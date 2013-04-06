@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import fr.univnantes.atal.android.tachoid.R;
 import fr.univnantes.atal.android.tachoid.entity.Data;
@@ -42,6 +43,7 @@ public class DomainsAdapter extends BaseAdapter {
     private class ViewHolder {
 
         TextView tvName;
+        ProgressBar pgProgress;
     }
 
     @Override
@@ -50,8 +52,17 @@ public class DomainsAdapter extends BaseAdapter {
             ViewHolder holder = new ViewHolder();
             convertView = inflater.inflate(R.layout.domain, null);
             holder.tvName = (TextView) convertView.findViewById(R.id.domain_name);
+            holder.pgProgress = (ProgressBar) convertView.findViewById(R.id.domain_progress);
             convertView.setTag(holder);
-            holder.tvName.setText(data.get(position).getName());
+            System.out.println("1");
+            Domain domain = data.get(position);
+            System.out.println("2");
+            holder.tvName.setText(domain.getName());
+            System.out.println("3");
+            holder.pgProgress.setMax(domain.size());
+            System.out.println("4");
+            holder.pgProgress.setProgress(domain.getProgress());
+            System.out.println("5");
             return convertView;
         } else {
             convertView = inflater.inflate(R.layout.domains_add, null);

@@ -9,19 +9,17 @@
     android:layout_height="wrap_content"
     android:text="Retour"
     android:onClick="handleReturnClick" />-->
-    <TextView
-        android:id="@+id/tasks_title"
-        android:gravity="center"
-        android:textStyle="bold"
-        android:textSize="20dp"
-        android:textColor="#DDDDDD"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#333333"    />
-    <ListView        
-        android:id="@+id/tasks_listView"
-        android:layout_width="match_parent"
-        android:layout_height="0dip"
-        android:layout_weight="1" />
+    <TextView android:id="@+id/tasks_title"        
+              android:gravity="center"
+              android:textStyle="bold"
+              android:textSize="20dp"
+              android:textColor="#DDDDDD"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:background="#333333"    />
+    <ListView android:id="@+id/tasks_listView"       
+              android:layout_width="match_parent"
+              android:layout_height="0dip"
+              android:layout_weight="1" />
 </LinearLayout>
 

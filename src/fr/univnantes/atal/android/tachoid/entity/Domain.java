@@ -10,6 +10,16 @@ public class Domain extends ArrayList<Task> {
         this.name = name;
     }
 
+    public int getProgress() {
+        int count = 0;
+        for (Task task : this) {
+            if (task.isChecked()) {
+                count++;
+            }
+        }
+        return count;
+    }
+
     /**
      * @return the name
      */
@@ -23,7 +33,7 @@ public class Domain extends ArrayList<Task> {
     public void setName(String name) {
         this.name = name;
     }
-    
+
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder("Domain : " + name + " [\n");

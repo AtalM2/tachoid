@@ -40,6 +40,7 @@ public class DomainsActivity extends Activity {
 
         // Initialisation de la liste des listes
         ListView listView = (ListView) findViewById(R.id.domains_listView);
+        System.out.println(listView.toString());
         DomainsAdapter adapter = new DomainsAdapter(this, data);
         listView.setAdapter(adapter);
         registerForContextMenu(listView);
