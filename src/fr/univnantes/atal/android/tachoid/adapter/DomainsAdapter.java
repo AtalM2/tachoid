@@ -8,6 +8,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 import fr.univnantes.atal.android.tachoid.R;
 import fr.univnantes.atal.android.tachoid.entity.Data;
+import fr.univnantes.atal.android.tachoid.entity.Domain;
 
 public class DomainsAdapter extends BaseAdapter {
 
@@ -21,7 +22,7 @@ public class DomainsAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return data.size();
+        return data.size() + 1;
     }
 
     @Override
@@ -33,7 +34,7 @@ public class DomainsAdapter extends BaseAdapter {
     public long getItemId(int position) {
         return position;
     }
-    
+
     public void setData(Data data) {
         this.data = data;
     }
@@ -45,16 +46,16 @@ public class DomainsAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder holder;
-        if (convertView == null) {
-            holder = new ViewHolder();
+        if (position < getCount() - 1) {
+            ViewHolder holder = new ViewHolder();
             convertView = inflater.inflate(R.layout.domain, null);
             holder.tvName = (TextView) convertView.findViewById(R.id.domain_name);
             convertView.setTag(holder);
+            holder.tvName.setText(data.get(position).getName());
+            return convertView;
         } else {
-            holder = (ViewHolder) convertView.getTag();
+            convertView = inflater.inflate(R.layout.domains_add, null);
+            return convertView;
         }
-        holder.tvName.setText(data.get(position).getName());
-        return convertView;
     }
 }

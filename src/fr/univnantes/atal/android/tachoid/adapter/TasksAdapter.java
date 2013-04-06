@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.TextView;
 import fr.univnantes.atal.android.tachoid.R;
 import fr.univnantes.atal.android.tachoid.activity.TasksActivity;
 import fr.univnantes.atal.android.tachoid.entity.Data;
@@ -31,7 +32,7 @@ public class TasksAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return data.get(domainId).size();
+        return data.get(domainId).size() + 1;
     }
 
     @Override
@@ -50,36 +51,32 @@ public class TasksAdapter extends BaseAdapter {
 
     private class ViewHolder {
 
-        CheckBox cbName;
+        TextView tvName;
+        CheckBox cbCheck;
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder holder;
-        final Task task = data.get(domainId).get(position);
-        if (convertView == null) {
-            holder = new ViewHolder();
+        if (position < getCount() - 1) {
+            final Task task = data.get(domainId).get(position);
+            ViewHolder holder = new ViewHolder();
             convertView = inflater.inflate(R.layout.task, null);
-            holder.cbName = (CheckBox) convertView.findViewById(R.id.task_name);
+            holder.cbCheck = (CheckBox) convertView.findViewById(R.id.task_check);
+            holder.tvName = (TextView) convertView.findViewById(R.id.task_name);
             convertView.setTag(holder);
+            holder.tvName.setText(task.getName());
+            holder.cbCheck.setChecked(task.isChecked());
+            holder.cbCheck.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    task.setChecked(isChecked);
+                    manager.save(data);
+                    notifyDataSetChanged();
+                }
+            });
+            return convertView;
         } else {
-            holder = (ViewHolder) convertView.getTag();
+            convertView = inflater.inflate(R.layout.tasks_add, null);
+            return convertView;
         }
-        holder.cbName.setText(task.getName());
-        holder.cbName.setChecked(task.isChecked());
-        holder.cbName.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                task.setChecked(isChecked);
-                if (manager == null) {
-                    System.out.println("MANAGER NULL");
-                }
-                if (data == null) {
-                    System.out.println("DATA NULL");
-                }
-                manager.save(data);
-                notifyDataSetChanged();
-            }
-        });
-        return convertView;
     }
 }

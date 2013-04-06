@@ -142,6 +142,7 @@ public class DomainsActivity extends Activity {
 
         alertDialogBuilder.setTitle("Ajouter une liste");
         final EditText input = new EditText(this);
+        input.setSingleLine();
         alertDialogBuilder
                 .setView(input)
                 .setCancelable(false)

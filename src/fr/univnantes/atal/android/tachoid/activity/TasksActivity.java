@@ -145,6 +145,7 @@ public class TasksActivity extends Activity {
 
         alertDialogBuilder.setTitle("Ajouter une tâche");
         final EditText input = new EditText(this);
+        input.setSingleLine();
         alertDialogBuilder
                 .setView(input)
                 .setCancelable(false)
