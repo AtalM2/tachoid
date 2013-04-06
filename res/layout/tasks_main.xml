@@ -2,7 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:orientation="vertical"
               android:layout_width="match_parent"
-              android:layout_height="match_parent" >
+              android:layout_height="match_parent" 
+              android:background="#CCCCCC" >
     <!--<Button
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -10,9 +11,14 @@
     android:onClick="handleReturnClick" />-->
     <TextView
         android:id="@+id/tasks_title"
+        android:gravity="center"
+        android:textStyle="bold"
+        android:textSize="20dp"
+        android:textColor="#DDDDDD"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-    <ListView
+        android:layout_height="wrap_content"
+        android:background="#333333"    />
+    <ListView        
         android:id="@+id/tasks_listView"
         android:layout_width="match_parent"
         android:layout_height="0dip"
