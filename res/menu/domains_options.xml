@@ -2,7 +2,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
     
     <item android:id="@+id/domains_options_addDomain"
-          android:title="Ajouter une liste" />
+          android:title="Créer une liste" />
     <item android:id="@+id/domains_options_deleteAll"
           android:title="Supprimer tout" />
 
