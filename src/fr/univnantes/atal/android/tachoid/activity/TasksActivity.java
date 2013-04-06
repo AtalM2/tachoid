@@ -110,7 +110,7 @@ public class TasksActivity extends Activity {
                 showAddTaskDialog(null);
                 return true;
             case R.id.tasks_options_deleteAll:
-                data.clear();
+                data.get(domainId).clear();
                 save();
                 return true;
             default:
