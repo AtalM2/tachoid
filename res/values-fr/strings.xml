@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Tachoid</string>
+    <string name="add_domain...">Créer une liste…</string>
+    <string name="add_domain">Créer une liste</string>
+    <string name="delete_all">Supprimer tout</string>
+    <string name="rename">Renommer</string>
+    <string name="delete">Supprimer</string>
+    <string name="add_task...">Créer une tâche…</string>
+    <string name="add_task">Créer une tâche</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Annuler</string>
+    <string name="rename_domain">Renommer la liste</string>
+    <string name="rename_task">Renommer la tâche</string>
+</resources>

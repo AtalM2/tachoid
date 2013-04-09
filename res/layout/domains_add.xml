@@ -14,7 +14,7 @@
         android:background="#005500"
         android:layout_width="match_parent"
         android:textSize="17dp"
-        android:text="Créer une liste..."
+        android:text="@string/add_domain..."
         android:textStyle="bold"
         android:onClick="showAddDomainDialog" />
 </LinearLayout>

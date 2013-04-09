@@ -141,13 +141,13 @@ public class DomainsActivity extends Activity {
     public void showAddDomainDialog(View view) {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
 
-        alertDialogBuilder.setTitle("Ajouter une liste");
+        alertDialogBuilder.setTitle(getString(R.string.add_domain));
         final EditText input = new EditText(this);
         input.setSingleLine();
         alertDialogBuilder
                 .setView(input)
                 .setCancelable(false)
-                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                .setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 String name = input.getText().toString();
                 if (!name.equals("")) {
@@ -159,7 +159,7 @@ public class DomainsActivity extends Activity {
                 }
             }
         })
-                .setNegativeButton("Annuler", new DialogInterface.OnClickListener() {
+                .setNegativeButton(getString(R.string.cancel),new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 dialog.cancel();
             }
@@ -172,7 +172,7 @@ public class DomainsActivity extends Activity {
     private void renameDomain(int domainId) {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
         final Domain domain = data.get(domainId);
-        alertDialogBuilder.setTitle("Renommer la liste");
+        alertDialogBuilder.setTitle(getString(R.string.rename_domain));
         final EditText input = new EditText(this);
         input.setText(domain.getName());
         int position = input.length();
@@ -181,7 +181,7 @@ public class DomainsActivity extends Activity {
         alertDialogBuilder
                 .setView(input)
                 .setCancelable(false)
-                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                .setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 String name = input.getText().toString();
                 if (!name.equals("")) {
@@ -192,7 +192,7 @@ public class DomainsActivity extends Activity {
                 }
             }
         })
-                .setNegativeButton("Annuler", new DialogInterface.OnClickListener() {
+                .setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 dialog.cancel();
             }

@@ -13,8 +13,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -143,13 +141,13 @@ public class TasksActivity extends Activity {
     public void showAddTaskDialog(View view) {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
 
-        alertDialogBuilder.setTitle("Ajouter une tâche");
+        alertDialogBuilder.setTitle(getString(R.string.add_task));
         final EditText input = new EditText(this);
         input.setSingleLine();
         alertDialogBuilder
                 .setView(input)
                 .setCancelable(false)
-                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                .setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 String name = input.getText().toString();
                 if (!name.equals("")) {
@@ -161,7 +159,7 @@ public class TasksActivity extends Activity {
                 }
             }
         })
-                .setNegativeButton("Annuler", new DialogInterface.OnClickListener() {
+                .setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 dialog.cancel();
             }
@@ -174,7 +172,7 @@ public class TasksActivity extends Activity {
     private void renameTask(int taskId) {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
         final Task task = data.get(domainId).get(taskId);
-        alertDialogBuilder.setTitle("Renommer la tâche");
+        alertDialogBuilder.setTitle(getString(R.string.rename_task));
         final EditText input = new EditText(this);
         input.setText(task.getName());
         int position = input.length();
@@ -183,7 +181,7 @@ public class TasksActivity extends Activity {
         alertDialogBuilder
                 .setView(input)
                 .setCancelable(false)
-                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                .setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 String name = input.getText().toString();
                 if (!name.equals("")) {
@@ -194,7 +192,7 @@ public class TasksActivity extends Activity {
                 }
             }
         })
-                .setNegativeButton("Annuler", new DialogInterface.OnClickListener() {
+                .setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 dialog.cancel();
             }

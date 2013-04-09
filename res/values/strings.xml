@@ -1,4 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Tachoid</string>
+    <string name="add_domain...">Add list…</string>
+    <string name="add_domain">Add list</string>
+    <string name="delete_all">Delete all</string>
+    <string name="rename">Rename</string>
+    <string name="delete">Delete</string>
+    <string name="add_task...">Add task…</string>
+    <string name="add_task">Add task</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
+    <string name="rename_domain">Rename list</string>
+    <string name="rename_task">Rename task</string>
 </resources>

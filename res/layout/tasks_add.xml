@@ -14,6 +14,6 @@
         android:layout_width="match_parent"
         android:layout_height="35dp"
         android:fontFamily="serif"
-        android:text="Créer une tâche..."
+        android:text="@string/add_task..."
         android:onClick="showAddTaskDialog" />
 </LinearLayout>

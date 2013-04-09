@@ -4,7 +4,11 @@ import java.util.ArrayList;
 
 public class Domain extends ArrayList<Task> {
 
-    private String name;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private String name;
 
     public Domain(String name) {
         this.name = name;
